@@ -21,7 +21,9 @@ def main(input_text):
             result.append(pass_to_llm(slice))
     return result
 
+def test_slicing():
+    slices = split_into_slices(input_text)
+    for item in slices:
+        print (item)
+test_slicing()
 # main(input_text)
-slices = split_into_slices(input_text)
-for item in slices:
-    print (item)

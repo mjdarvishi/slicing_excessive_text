@@ -3,7 +3,7 @@ import nltk
 # Example usage:
 input_text = "This is an example text.An example is given here."
 
-standard_size = 10
+standard_size = 5
 def init():
     try:
         nltk.data.find('tokenizers/punkt')

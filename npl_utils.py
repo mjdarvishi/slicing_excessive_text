@@ -13,7 +13,12 @@ def measure_length(text):
     tokens = word_tokenize(text)
     return len(tokens)
 
-def word_tokenizing(text):
+def word_tokenizing_without_lemmatization(text):
+    # Measure the length of the document in terms of tokens
+    tokens = word_tokenize(text)
+    return tokens
+
+def word_tokenizing_with_lemmatization(text):
     # Tokenization, stopword removal, and lemmatization
     stop_words = set(nltk.corpus.stopwords.words('english'))
     tokenizer = nltk.tokenize.RegexpTokenizer(r'\w+')
@@ -22,12 +27,14 @@ def word_tokenizing(text):
     tokens = tokenizer.tokenize(text.lower())
     filtered_tokens = [lemmatizer.lemmatize(token) for token in tokens if token not in stop_words]
 
-    return filtered_tokens
+    return " ".join(filtered_tokens)
 
 
 def check_slices_similarity(slice1, slice2, threshold=0.2,algoritm=0):
     # Preprocess slices
     # Vectorization and calculation of cosine distance
+    slice1=word_tokenizing_with_lemmatization(slice1)
+    slice2=word_tokenizing_with_lemmatization(slice2)
     vectorizer =  CountVectorizer() if algoritm==0 else TfidfVectorizer()
     vectors = vectorizer.fit_transform([slice1, slice2])
     cosine_distance = cosine_distances(vectors)
@@ -53,7 +60,7 @@ def check_overlap(text1, text2):
     return False
 
 def split_into_slices(input_text):
-    input_text=word_tokenizing(input_text)
+    input_text=word_tokenizing_without_lemmatization(input_text)
     input_size = len(input_text)
     # Case 2: Input is above the standard size, split into slices
     num_slices = math.ceil(input_size / standard_size)
@@ -81,6 +88,6 @@ def split_into_slices(input_text):
             else:
                 diffrence=0
 
-        slices.append(" ".join(new_slice))
+        slices.append(new_slice_text)
 
     return slices
