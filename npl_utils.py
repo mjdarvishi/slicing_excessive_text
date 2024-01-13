@@ -22,7 +22,7 @@ def word_tokenizing(text):
     tokens = tokenizer.tokenize(text.lower())
     filtered_tokens = [lemmatizer.lemmatize(token) for token in tokens if token not in stop_words]
 
-    return " ".join(filtered_tokens)
+    return filtered_tokens
 
 
 def check_slices_similarity(slice1, slice2, threshold=0.2,algoritm=0):
@@ -65,22 +65,22 @@ def split_into_slices(input_text):
         start_index = (i * slice_size)-diffrence
         end_index = min((i + 1) * slice_size, input_size)
         new_slice=input_text[start_index:end_index]
+        new_slice_text=" ".join(new_slice)
         if i > 0:
             # get previose slice
             prev_slice = slices[-1]
             # checking overlap
-            # overlap = check_overlap(new_slice,prev_slice[-(end_index - start_index):])
-            overlap = check_overlap(new_slice,prev_slice)
+            overlap = check_overlap(new_slice_text,prev_slice)
             # checking diffrence
             # Algoritms={0:'count_vector',1:'Tfidf_vectorizer'}
-            different_enough = check_slices_similarity(prev_slice,new_slice,algoritm=0)
+            different_enough = check_slices_similarity(prev_slice,new_slice_text,algoritm=0)
 
             if not overlap or not different_enough:
                 # Adjust the current slice to ensure no overlap and sufficient difference
-                diffrence -= len(prev_slice) - (end_index - start_index)
+                diffrence -= measure_length(prev_slice) - (end_index - start_index)
             else:
                 diffrence=0
 
-        slices.append(new_slice)
+        slices.append(" ".join(new_slice))
 
     return slices
