@@ -1,0 +1,4 @@
+scikit_learn
+nltk
+python-dotenv
+openai
