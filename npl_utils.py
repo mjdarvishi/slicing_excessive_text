@@ -98,7 +98,8 @@ def split_into_slices(input_text):
             overlap = check_overlap(new_slice_text,prev_slice)
             # checking diffrence
             # Algoritms={0:'count_vector',1:'Tfidf_vectorizer',2:'meaning_similarity'}
-            # default one is:1:'Tfidf_vectorizer'
+            # default one is :1:'Tfidf_vectorizer.
+            # becuase in the problem is mentioned to count of occurrences weighted on the length of the document 
             different_enough = check_slices_similarity(prev_slice,new_slice_text,algoritm=0)
 
             if not overlap or not different_enough:
