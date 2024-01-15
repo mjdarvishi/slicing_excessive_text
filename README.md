@@ -19,7 +19,7 @@ Text slicing project base of the context limit size.
     * make the text lower case
     * find all overlapping sequences of a certain length
 * checking similarity
-    * vectorization and calculation of cosine distance with two kind of approach:
+    * vectorization and calculation of cosine distance with two kind of approach (defualt one isTfidfVectorizer which consider the count of occurrences weighted on the length of the document ):
         * CountVectorizer
         * TfidfVectorizer
         * Also another approach is to check the similarity meaning of the word in the text

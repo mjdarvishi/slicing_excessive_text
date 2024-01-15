@@ -48,7 +48,7 @@ def mesuare_word_similarity(slice1,slice2):
                         wordnet_similarity = similarity
     return wordnet_similarity
 
-def check_slices_similarity(slice1, slice2, threshold=0.2,algoritm=0):
+def check_slices_similarity(slice1, slice2, threshold=0.2,algoritm=1):
     # Preprocess slices
     # Vectorization and calculation of cosine distance
     slice1=word_tokenizing_with_lemmatization(slice1)
@@ -60,7 +60,6 @@ def check_slices_similarity(slice1, slice2, threshold=0.2,algoritm=0):
     vectors = vectorizer.fit_transform([slice1, slice2])
     cosine_distance = cosine_distances(vectors)
     
-    print(word_similarity)
     cosine_distance_score = cosine_distance[0, 1]
     return cosine_distance_score >= threshold
     
