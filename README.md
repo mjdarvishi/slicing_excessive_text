@@ -22,6 +22,7 @@ Text slicing project base of the context limit size.
     * vectorization and calculation of cosine distance with two kind of approach:
         * CountVectorizer
         * TfidfVectorizer
+        * Also another approach is to check the similarity meaning of the word in the text
     * calculate cosine distance and compare it to the threshold
 
 ## Project Structure:

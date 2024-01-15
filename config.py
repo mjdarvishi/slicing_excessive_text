@@ -10,3 +10,4 @@ def init():
     except LookupError:
         nltk.download('punkt')
         nltk.download("stopwords")
+        nltk.download('wordnet')

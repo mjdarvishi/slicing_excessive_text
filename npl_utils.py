@@ -6,7 +6,10 @@ import nltk
 from nltk.tokenize import word_tokenize
 from config import init,standard_size
 import math
+from nltk.corpus import wordnet
 init()
+
+
 
 def measure_length(text):
     # Measure the length of the document in terms of tokens
@@ -29,19 +32,36 @@ def word_tokenizing_with_lemmatization(text):
 
     return " ".join(filtered_tokens)
 
+def mesuare_word_similarity(slice1,slice2):
+    words1 = set(slice1.split())
+    words2 = set(slice2.split())
+    
+    wordnet_similarity = 0.0
+    for word1 in words1:
+        for word2 in words2:
+            synsets1 = wordnet.synsets(word1)
+            synsets2 = wordnet.synsets(word2)
+            for synset1 in synsets1:
+                for synset2 in synsets2:
+                    similarity = synset1.path_similarity(synset2)
+                    if similarity is not None and similarity > wordnet_similarity:
+                        wordnet_similarity = similarity
+    return wordnet_similarity
 
 def check_slices_similarity(slice1, slice2, threshold=0.2,algoritm=0):
     # Preprocess slices
     # Vectorization and calculation of cosine distance
     slice1=word_tokenizing_with_lemmatization(slice1)
     slice2=word_tokenizing_with_lemmatization(slice2)
+    if algoritm==2:
+        word_similarity=mesuare_word_similarity(slice1,slice2)
+        return (1 - word_similarity)>=threshold
     vectorizer =  CountVectorizer() if algoritm==0 else TfidfVectorizer()
     vectors = vectorizer.fit_transform([slice1, slice2])
     cosine_distance = cosine_distances(vectors)
-
-    # Cosine distance ranges from 0 (completely similar) to 2 (completely different)
+    
+    print(word_similarity)
     cosine_distance_score = cosine_distance[0, 1]
-
     return cosine_distance_score >= threshold
     
 def check_overlap(text1, text2):
@@ -79,7 +99,7 @@ def split_into_slices(input_text):
             # checking overlap
             overlap = check_overlap(new_slice_text,prev_slice)
             # checking diffrence
-            # Algoritms={0:'count_vector',1:'Tfidf_vectorizer'}
+            # Algoritms={0:'count_vector',1:'Tfidf_vectorizer',2:'meaning_similarity'}
             different_enough = check_slices_similarity(prev_slice,new_slice_text,algoritm=0)
 
             if not overlap or not different_enough:
