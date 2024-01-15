@@ -86,9 +86,8 @@ def split_into_slices(input_text):
     slice_size = math.ceil(input_size / num_slices)
 
     slices = []
-    diffrence=0
     for i in range(num_slices):
-        start_index = (i * slice_size)-diffrence
+        start_index = i * slice_size
         end_index = min((i + 1) * slice_size, input_size)
         new_slice=input_text[start_index:end_index]
         new_slice_text=" ".join(new_slice)
@@ -103,9 +102,9 @@ def split_into_slices(input_text):
 
             if not overlap or not different_enough:
                 # Adjust the current slice to ensure no overlap and sufficient difference
-                diffrence -= measure_length(prev_slice) - (end_index - start_index)
-            else:
-                diffrence=0
+                new_start_index = end_index - len(new_slice)
+                new_slice = input_text[new_start_index:end_index]
+                new_slice_text = " ".join(new_slice)
 
         slices.append(new_slice_text)
 
