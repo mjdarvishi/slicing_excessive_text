@@ -24,6 +24,6 @@ def main(input_text):
 def test_slicing():
     slices = split_into_slices(input_text)
     for item in slices:
-        print (item)
+        print(item)
 test_slicing()
 # main(input_text)
