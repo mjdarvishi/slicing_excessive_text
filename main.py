@@ -22,8 +22,19 @@ def main(input_text):
     return result
 
 def test_slicing():
-    slices = split_into_slices(input_text)
-    for item in slices:
-        print(item)
+    input_size = measure_length(input_text)
+    print(input_size)
+    if input_size <= standard_size:
+        print(input_text)
+    else:
+        result=[]
+        slices = split_into_slices(input_text)
+        for item in slices:
+            print (item)
+        for slice in slices:
+            result.append(pass_to_llm(slice))
+        slices = split_into_slices(input_text)
+        for item in slices:
+            print(item)
 test_slicing()
 # main(input_text)
